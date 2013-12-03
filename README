@@ -1,0 +1,5 @@
+#pyqrlink
+
+*依赖:*
+* web.py
+* qrcode

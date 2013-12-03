@@ -1,0 +1,178 @@
+$def with(filelist)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>内部测试上传</title>
+<!-- <link href="../static/style.css" type="text/css" rel="stylesheet" charset="utf-8"/> -->
+<style>
+	* {
+	margin:0
+}
+ul li{
+	list-style:none;
+}
+body {
+	color:#ccff00;
+	background:#000;
+	background-repeat:repeat-y;
+}
+a {
+	color:#ccff00;
+	text-decoration: none;
+}
+#container {
+	margin:0 auto;
+	width:1000px;
+}
+#left {
+	position: fixed;
+	width:300px;
+	float:left;
+}
+#right {
+	margin-left: 300px;
+	width:300px;
+	float:left;
+}
+#right2 {
+	width:300;
+	float:left;
+	margin-left:700px;
+	top:100px;
+	position: fixed;
+}
+#header {
+	padding-top:40px;
+	text-align:center;
+}
+#header h1 {
+	margin-bottom:30px;
+}
+#header a {
+	display:block;
+	margin:20px auto;
+	text-decoration:none;
+}
+#applist {
+	width:330px;
+	margin:30px auto;
+	text-align:left;
+	overflow:hidden;
+}
+#applist ul li a{
+	display: block;
+	width:290px;
+	height:40px;
+	padding:  0 10px;
+	overflow: hidden;
+}
+#applist ul li a:hover{
+	background-color: #ccff00;
+	color:#000;
+}
+
+.btn_add {
+	display:block;
+	position:relative;
+	width:140px;
+	height:39px;
+	overflow:hidden;
+	background:none repeat scroll 0 0 #ccff00;
+	color:#000;
+	cursor:pointer;
+	text-align:center;
+}
+.btn_add span {
+	display:block;
+	line-height:39px;
+}
+.btn_add:hover em {
+	background-position:-19px 0;
+}
+.filePrew {
+	display:block;
+	position:absolute;
+	top:0;
+	left:0;
+	color:#ccff00;
+	width:140px;
+	height:39px;
+	font-size:100px;
+	opacity:0;
+	filter:alpha(opacity=0);
+}
+.btn_sub {
+	background-color:#000;
+	color:#ccff00;
+	height:35px;
+	width:70px;
+	border:0;
+	font-size:25px;
+	padding:0px;
+}
+.txt_url{
+	width: 200px;
+	height:30px;
+	border:2px solid #ccff00;
+	margin:20px 0;
+}
+ul {
+	line-height:35px;
+}
+#qrimg {
+	margin-top:100px;
+	width:380px;
+}
+
+</style>
+</head>
+<body>
+<div id="container">
+	<div id="left">
+		<div id="header">
+		<h1>上传--二维码</h1>
+      <form method="POST" enctype="multipart/form-data" action="/">
+      	(上传文件或者URL，两者选一，否则按URL计算)
+        <a href="javascript:void(0);" class="btn_add"><span><em>+</em>添加文件</span>
+        	<input class='filePrew' type="file" name="myfile" />
+        </a>
+        或者
+        <br/>
+
+        URL <input class='txt_url' type="text" name="myurl"/>
+        <br/>
+        <input class='btn_sub' type="submit"  value="提交" />
+
+      </form>
+
+	</div>
+	</div>
+	<div id="right">
+		<div id="applist">
+		
+		$code:
+		def getqr(file):
+			file += '.jpg'
+			return file
+		
+	    $for file in filelist:
+	    <ul>
+	      <li><a href="http://localhost:8001/packages/upload/qrcode/$getqr(file)" onmouseover="showimg(this.href)">$file</a></li>
+		</ul>		
+	</div>
+	</div>
+	<div id="right2">
+		<img id="qrimg" src=" " alt="二维码"/>
+	</div>
+<script>
+	function showimg(url){
+ 		console.log(url); 
+		document.getElementById('qrimg').src = url;
+	} 
+
+
+</script>
+</div>
+</body>
+</html>
