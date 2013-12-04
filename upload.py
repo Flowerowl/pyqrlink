@@ -45,7 +45,7 @@ class Upload:
 
 
 def create_url_file(filename):
-    filename += random.random(1000000)
+    filename += str(random.random() * 10000)
     f = open(filename, 'w')
     f.write(' ')
     f.close()
