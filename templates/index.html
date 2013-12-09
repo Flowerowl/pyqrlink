@@ -39,7 +39,7 @@ a {
 	width:300;
 	float:left;
 	margin-left:700px;
-	top:100px;
+	top:30px;
 	position: fixed;
 }
 #header {
@@ -60,16 +60,24 @@ a {
 	text-align:left;
 	overflow:hidden;
 }
-#applist ul li a{
+#applist ul li{
 	display: block;
-	width:290px;
+	width:250px;
 	height:40px;
 	padding:  0 10px;
 	overflow: hidden;
 }
+#applist ul li a{
+	display: block;
+}
 #applist ul li a:hover{
 	background-color: #ccff00;
 	color:#000;
+}
+#applist ul li span{
+	float:right;
+	width: 30px;
+	text-align: center;
 }
 
 .btn_add {
@@ -103,12 +111,12 @@ a {
 	filter:alpha(opacity=0);
 }
 .btn_sub {
-	background-color:#000;
-	color:#ccff00;
+	background-color:#ccff00;
+	color:#000;
 	height:35px;
-	width:70px;
+	width:140px;
 	border:0;
-	font-size:25px;
+	font-size:16px;
 	padding:0px;
 }
 .txt_url{
@@ -124,6 +132,7 @@ ul {
 	margin-top:100px;
 	width:380px;
 }
+#fileurl{display: block;width: 380px;}
 
 </style>
 </head>
@@ -142,7 +151,7 @@ ul {
 
         URL <input class='txt_url' type="text" name="myurl"/>
         <br/>
-        <input class='btn_sub' type="submit"  value="提交" />
+        <input class='btn_sub' type="submit"  value="√提交" />
 
       </form>
 
@@ -155,22 +164,24 @@ ul {
 		def getqr(file):
 			file += '.jpg'
 			return file
-		
+		def geturl(file):
+			return 'http://pypi.go.sohuno.com/packages/upload/'+file
 	    $for file in filelist:
 	    <ul>
-	      <li><a href="http://localhost:8001/packages/upload/qrcode/$getqr(file)" onmouseover="showimg(this.href)">$file</a></li>
+	      <li><span><a href="/del/$file" onclick="return confirm('确定删除?')">×</a></span><a href="http://localhost:8001/packages/upload/qrcode/$getqr(file)" onmouseover="showimg(this.href);">$file</a>
+	      </li>
 		</ul>		
 	</div>
 	</div>
 	<div id="right2">
 		<img id="qrimg" src=" " alt="二维码"/>
+		<br/>
 	</div>
 <script>
 	function showimg(url){
  		console.log(url); 
 		document.getElementById('qrimg').src = url;
 	} 
-
 
 </script>
 </div>

@@ -5,7 +5,9 @@ import os
 import qrcode
 import random
 
-urls = ('/', 'Upload')
+urls = ('/', 'Upload',
+        'del/(.*?)', 'Delete'
+    )
 root = os.path.dirname(__file__)
 render = web.template.render(os.path.join(root, 'templates/'))
 
@@ -41,6 +43,17 @@ class Upload:
             filename = x.myurl.replace('://', '_').replace('.', '_')
             create_url_file(filename)
             create_qrcode(x.myurl, filename)
+        raise web.seeother('/')
+
+class Delete:
+
+    def GET(self, name):
+        targetFile = '/Users/Flowerowl/packages/upload/'+name
+        targetQr = '/Users/Flowerowl/packages/upload/qrcode/'+name+'.jpg'
+        if os.path.isfile(targetFile): 
+            os.remove(targetFile)
+        if os.path.isfile(targetQr): 
+            os.remove(targetQr)
         raise web.seeother('/')
 
 
