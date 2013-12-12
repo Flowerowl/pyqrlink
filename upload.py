@@ -5,6 +5,7 @@ import os
 import qrcode
 import random
 import tarfile
+import zipfile
 
 urls = ('/', 'Upload',
         '/del/(.*?)', 'Delete',
@@ -38,15 +39,20 @@ class Upload:
         if x.myfile != "" and x.myurl == "":
             filepath = x.myfile.filename.replace('\\', '/')
             filename = filepath.split('/')[-1].strip()
-            # 如果上传文件是文件夹的.tar.gz类型，则解压xxx.tar.gz
-            if os.path.splitext(filepath)[-1] == '.gz':
+            # 如果上传文件是文件夹的.tar.gz/.zip类型，则解压xxx.tar.gz/.zip
+            tail = os.path.splitext(filepath)[-1]
+            if tail == '.gz':
                 newfilename = create_file(
                     filename, filepath, x.myfile.file.read())
-                extract_file(newfilename, filepath)
+                extract_tar_file(newfilename)
+            if tail == '.zip':
+                newfilename = create_file(
+                    filename, filepath, x.myfile.file.read())
+                extract_zip_file(newfilename)
             else:
                 create_file(filename, filepath, x.myfile.file.read())
             create_qrcode(
-                'http://localhost:8001/packages/upload/' + filename, filename)
+                'http://baid.comn' + filename, filename)
         # 如果URL不为空则忽略单一文件
         if x.myurl != "":
             filename = x.myurl.replace('://', '_').replace('.', '_')
@@ -81,13 +87,21 @@ def delete_dir_file(dirpath):
             os.rmdir(os.path.join(root, name))
 
 
-def extract_file(filename, filepath):
-    """解压缩tar.gz文件,并将文件放到static/tar/filename下"""
-    root = fileroot
+def extract_zip_file(filename):
+    """解压缩zip文件,并讲文件放到static/tar/filename下"""
     path = tarroot + filename.split('.')[0]
     if not os.path.exists(path):
         os.mkdir(path)
-    tfile = root + filename
+    tfile = fileroot + filename
+    with zipfile.ZipFile(tfile, 'r') as myzip:
+        myzip.extractall(tarroot)
+
+def extract_tar_file(filename):
+    """解压缩tar.gz文件,并将文件放到static/tar/filename下"""
+    path = tarroot + filename.split('.')[0]
+    if not os.path.exists(path):
+        os.mkdir(path)
+    tfile = fileroot + filename
     tar = tarfile.open(tfile)
     names = tar.getnames()
     for name in names:
@@ -116,7 +130,7 @@ def create_qrcode(url, filename):
     img = qrcode.make(url)
     img.save(qrroot + filename + '.jpg')
 
-if __name__ == "__main__":
-    app = web.application(urls, globals())
-# application = app.wsgifunc()
-    app.run()
+
+app = web.application(urls, globals())
+application = app.wsgifunc()
+#app.run()
