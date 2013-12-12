@@ -106,8 +106,7 @@ def create_file(filename, filepath, filecontent):
 
 def create_url_file(filename):
     """创建URL物理文件"""
-    filename += str(random.randrange(0, 10000))
-    f = open(filename, 'w')
+    f = open(fileroot + filename, 'w')
     f.write(' ')
     f.close()
 
