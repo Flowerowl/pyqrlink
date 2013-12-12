@@ -80,7 +80,7 @@ a {
 	text-align: center;
 }
 
-.btn_add {
+/*.btn_add {
 	display:block;
 	position:relative;
 	width:140px;
@@ -90,15 +90,15 @@ a {
 	color:#000;
 	cursor:pointer;
 	text-align:center;
-}
-.btn_add span {
+}*/
+/*.btn_add span {
 	display:block;
 	line-height:39px;
 }
 .btn_add:hover em {
 	background-position:-19px 0;
-}
-.filePrew {
+}*/
+/*.filePrew {
 	display:block;
 	position:absolute;
 	top:0;
@@ -109,7 +109,7 @@ a {
 	font-size:100px;
 	opacity:0;
 	filter:alpha(opacity=0);
-}
+}*/
 .btn_sub {
 	background-color:#ccff00;
 	color:#000;
@@ -141,14 +141,19 @@ ul {
 	<div id="left">
 		<div id="header">
 		<h1>上传--二维码</h1>
-      <form method="POST" enctype="multipart/form-data" action="/">
-      	(上传文件或者URL，两者选一，否则按URL计算)
-        <a href="javascript:void(0);" class="btn_add"><span><em>+</em>添加文件</span>
+      <form method="POST" enctype="multipart/form-data" action="">
+      	(上传文件/URL，两者选一，否则按URL计算)
+        <!-- <a href="javascript:void(0);" class="btn_add"><span><em>+</em>添加文件</span>
         	<input class='filePrew' type="file" name="myfile" />
-        </a>
-        或者
+        </a> -->
         <br/>
-
+        <br/>
+        <br/>
+        上传单一文件
+        <input class='filePrew' type="file" name="myfile" />
+        <br/>
+        <br/>
+        <br/>
         URL <input class='txt_url' type="text" name="myurl"/>
         <br/>
         <input class='btn_sub' type="submit"  value="√提交" />
@@ -165,10 +170,10 @@ ul {
 			file += '.jpg'
 			return file
 		def geturl(file):
-			return 'http://pypi.go.sohuno.com/packages/upload/'+file
+			return 'http://localhost:8000/static/upload/'+file
 	    $for file in filelist:
 	    <ul>
-	      <li><span><a href="/del/$file" onclick="return confirm('确定删除?')">×</a></span><a href="http://localhost:8001/packages/upload/qrcode/$getqr(file)" onmouseover="showimg(this.href);">$file</a>
+	      <li><span><a href="/del/$file" onclick="return confirm('确定删除?')">×</a></span><a href="http://localhost:8000/static/qrcode/$getqr(file)" onmouseover="showimg(this.href);">$file</a>
 	      </li>
 		</ul>		
 	</div>
